@@ -23,6 +23,11 @@
 将目录下的[config_sample-setu_score.py](config_sample-setu_score.py)重命名为`setu_score.py`并填入对应的信息, 将其移动至`config`文件夹下,
 路径应为`hoshino/config/setu_score.py`
 
+## 注意
+
+插件为默认关闭, 因为它会将群内所有图片都进行分值查询, 如果是图片较多的群注意API的消耗
+
+为了减少调用次数, 插件对图片的名字和分值进行了存储, 并忽略了表情包
 
 ## 原仓库的使用说明
 

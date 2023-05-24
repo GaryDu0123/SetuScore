@@ -19,19 +19,7 @@
 [取消禁言阈值] 取消当前群组的禁言阈值
 ```
 
-## 更新
-9.27
-增加了卡通女性性感参数\
-开始打分时会有提示\
-调用api方式改为直接调用，不用再下载SDK，传图方式改为url 感谢[@LHXnois](https://github.com/LHXnois)\
-修改了一些小问题
-
-9.26
-添加了对data的检测\
-支持连续对话\
-新增回复打分选项
-
-## 使用说明
+## 原仓库的使用说明
 
 在 https://cloud.baidu.com/product/imagecensoring 页面开通服务
 
@@ -64,4 +52,5 @@
 
 
 ## 致谢
-连续对话代码参考(嗯缝)了 https://github.com/pcrbot/picfinder_take
+连续对话代码参考了 https://github.com/pcrbot/picfinder_take
+数据库处理部分参考了 https://github.com/azmiao/XQA

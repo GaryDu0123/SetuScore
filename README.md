@@ -18,6 +18,11 @@
 [禁言阈值 分数] 发高于阈值的图片将会被禁言
 [取消禁言阈值] 取消当前群组的禁言阈值
 ```
+## 新增的步骤
+
+将目录下的[config_sample-setu_score.py](config_sample-setu_score.py)重命名为`setu_score.py`并填入对应的信息, 将其移动至`config`文件夹下,
+路径应为`hoshino/config/setu_score.py`
+
 
 ## 原仓库的使用说明
 
@@ -53,4 +58,5 @@
 
 ## 致谢
 连续对话代码参考了 https://github.com/pcrbot/picfinder_take
+
 数据库处理部分参考了 https://github.com/azmiao/XQA

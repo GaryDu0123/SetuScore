@@ -143,7 +143,7 @@ async def picmessage(bot, ev: CQEvent):
             else:
                 code = porn['code']
                 err = porn['msg']
-                await bot.send(ev, f'错误:{code}\n{err}')
+                sv.logger.error(f'错误:{code}\n{err}')
                 return
         threshold_db = await get_database("threshold_setting")
         if ev.group_id in threshold_db:
@@ -193,7 +193,7 @@ async def picmessage_manual(bot, ev: CQEvent):
             else:
                 code = porn['code']
                 err = porn['msg']
-                await bot.send(ev, f'错误:{code}\n{err}')
+                sv.logger.error(f'错误:{code}\n{err}')
                 pls.turn_off(ev.group_id)
                 return
 

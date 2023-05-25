@@ -126,43 +126,45 @@ async def picmessage(bot, ev: CQEvent):
     if not ret:
         return
     pls.turn_on(ev.group_id)
-    file = ret.group(1)
-    url = ret.group(3)  # 这里的组索引变为3，因为我们添加了一个新的组来排除subType=1
-    db = await get_database("score_record")
-    if file in db:
-        score = db[file]
-    else:
-        # ↓如果你想下载图片到本地的话去掉注释↓
-        # 下载路径是你的go-cqhttp/data/cache
-        # await get_bot().get_image(file=file)
-        porn = await porn_pic_index(url)
-        if porn['code'] == 0:
-            score = porn['value']
-            db[file] = score  # Store score in the database
+    try:
+        file = ret.group(1)
+        url = ret.group(3)  # 这里的组索引变为3，因为我们添加了一个新的组来排除subType=1
+        db = await get_database("score_record")
+        if file in db:
+            score = db[file]
         else:
-            code = porn['code']
-            err = porn['msg']
-            await bot.send(ev, f'错误:{code}\n{err}')
-            return
-    threshold_db = await get_database("threshold_setting")
-    if ev.group_id in threshold_db:
-        threshold = threshold_db[ev.group_id]
-        if score > threshold:
-            await util.silence(ev, 60)
+            # ↓如果你想下载图片到本地的话去掉注释↓
+            # 下载路径是你的go-cqhttp/data/cache
+            # await get_bot().get_image(file=file)
+            porn = await porn_pic_index(url)
+            if porn['code'] == 0:
+                score = porn['value']
+                db[file] = score  # Store score in the database
+            else:
+                code = porn['code']
+                err = porn['msg']
+                await bot.send(ev, f'错误:{code}\n{err}')
+                return
+        threshold_db = await get_database("threshold_setting")
+        if ev.group_id in threshold_db:
+            threshold = threshold_db[ev.group_id]
+            if score > threshold:
+                await util.silence(ev, 60)
 
-    if score > 450:
-        await bot.send(ev, f'{score} 好涩~不许给{NICKNAME[0]}看!!!')
-    elif score > 400:
-        await bot.send(ev, f'{score} 不要太过分了!!')
-    elif score > 350:
-        await bot.send(ev, f'{score} 啊啊啊(闭眼)')
-    # elif score > 300:
-    #     await bot.send(ev, f'{score} wwwww!')
-    # elif score > 250:
-    #     await bot.send(ev, f'{score} wwwww?!')
-    # elif score > 200:
-    #     await bot.send(ev, f'{score} 这是, 色图?!')
-    pls.turn_off(ev.group_id)
+        if score > 450:
+            await bot.send(ev, f'{score} 好涩~不许给{NICKNAME[0]}看!!!')
+        elif score > 400:
+            await bot.send(ev, f'{score} 不要太过分了!!')
+        elif score > 350:
+            await bot.send(ev, f'{score} 啊啊啊(闭眼)')
+        # elif score > 300:
+        #     await bot.send(ev, f'{score} wwwww!')
+        # elif score > 250:
+        #     await bot.send(ev, f'{score} wwwww?!')
+        # elif score > 200:
+        #     await bot.send(ev, f'{score} 这是, 色图?!')
+    finally:
+        pls.turn_off(ev.group_id)
 
 
 @sv.on_prefix(('打分', '评分'))
@@ -174,37 +176,40 @@ async def picmessage_manual(bot, ev: CQEvent):
     if not ret:  # 如果不是图片
         return
     pls.turn_on(ev.group_id)
-    file = ret.group(1) # file
-    url = ret.group(3)  # url
-    db = await get_database("score_record")
-    if file in db:
-        score = db[file]
-    else:
-        # ↓如果你想下载图片到本地的话去掉注释↓
-        # 下载路径是你的go-cqhttp/data/cache
-        # await get_bot().get_image(file=file)
-        porn = await porn_pic_index(url)
-        if porn['code'] == 0:
-            score = porn['value']
-            db[file] = score
+    try:
+        file = ret.group(1) # file
+        url = ret.group(3)  # url
+        db = await get_database("score_record")
+        if file in db:
+            score = db[file]
         else:
-            code = porn['code']
-            err = porn['msg']
-            await bot.send(ev, f'错误:{code}\n{err}')
-            return
+            # ↓如果你想下载图片到本地的话去掉注释↓
+            # 下载路径是你的go-cqhttp/data/cache
+            # await get_bot().get_image(file=file)
+            porn = await porn_pic_index(url)
+            if porn['code'] == 0:
+                score = porn['value']
+                db[file] = score
+            else:
+                code = porn['code']
+                err = porn['msg']
+                await bot.send(ev, f'错误:{code}\n{err}')
+                pls.turn_off(ev.group_id)
+                return
 
-    if score > 450:
-        await bot.send(ev, f'{score} 好涩~不许给{NICKNAME[0]}看!!!')
-    elif score > 400:
-        await bot.send(ev, f'{score} 不要太过分了!!')
-    elif score > 350:
-        await bot.send(ev, f'{score} 啊啊啊(闭眼)')
-    elif score > 300:
-        await bot.send(ev, f'{score} wwwww!')
-    elif score > 250:
-        await bot.send(ev, f'{score} wwwww?!')
-    elif score > 200:
-        await bot.send(ev, f'{score} 这是, 色图?!')
-    else:
-        await bot.send(ev, f'{score} 一般~')
-    pls.turn_off(ev.group_id)
+        if score > 450:
+            await bot.send(ev, f'{score} 好涩~不许给{NICKNAME[0]}看!!!')
+        elif score > 400:
+            await bot.send(ev, f'{score} 不要太过分了!!')
+        elif score > 350:
+            await bot.send(ev, f'{score} 啊啊啊(闭眼)')
+        elif score > 300:
+            await bot.send(ev, f'{score} wwwww!')
+        elif score > 250:
+            await bot.send(ev, f'{score} wwwww?!')
+        elif score > 200:
+            await bot.send(ev, f'{score} 这是, 色图?!')
+        else:
+            await bot.send(ev, f'{score} 一般~')
+    finally:
+        pls.turn_off(ev.group_id)
